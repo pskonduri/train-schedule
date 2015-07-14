@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<vxml version="2.1" xmlns="http://www.w3.org/2001/vxml">
+
+<form id="start">
+ <field name="option" bargein="false" anchor="true">
+
+<grammar version="1.0" tag-format="semantics/1.0" mode="dtmf" xml:lang="en-US" root="listings" type="application/srgs+xml">
+  <rule id="listings" scope="public">
+        <one-of>
+            <item>0<tag>out="goodbye";</tag></item>
+            <item>1<tag>out="scheduler";</tag></item>
+            <item>2<tag>out="fare";</tag></item>
+        </one-of>
+  </rule>
+</grammar>
+
+  <prompt><audio>You have reached BART service scheduler. Please listen to the following options</audio></prompt>
+  <prompt><audio>Press 1 for Schedule</audio></prompt>
+  <prompt><audio>Press 2 for Fares</audio></prompt>
+  <prompt><audio>Press 0 to hangup</audio></prompt>
+
+  <catch event="noinput nomatch"><audio>Try again.</audio><reprompt/></catch>
+  <catch event="noinput nomatch" count="3"><audio>I do not understand you. I am hanging up now.</audio><disconnect/></catch>
+
+ <filled>
+
+   <if cond="option=='goodbye'"> <disconnect/>
+   <elseif cond="option=='scheduler'"/><prompt><audio>option 1 is selected</audio></prompt>
+   <elseif cond="option=='fare'"/><prompt><audio>option 2 is selected</audio></prompt>
+  <else/>
+  </if>
+  </filled>
+ </field>
+</form>
